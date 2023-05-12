@@ -6,10 +6,10 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Hangman {
-    List<String> words = List.of("car", "computer", "programming", "football");
-    String word;
-    char[] userWord;
-    int lives = 5;
+    private final List<String> words = List.of("car", "computer", "programming", "football");
+    private String word;
+    private char[] userWord;
+    private int lives = 5;
 
     public void play() {
         Scanner scanner = new Scanner(System.in);
@@ -25,18 +25,18 @@ public class Hangman {
             System.out.println();
             System.out.println("Provide a letter: ");
 
-            char letter = scanner.nextLine().charAt(0);
-
-            checkLetter(letter);
-
-            //add function to check correctly answers from user
+            try {
+                char letter = scanner.nextLine().charAt(0);
+                checkLetter(letter);
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("Please enter a single letter.");
+            }
         }
         scanner.close();
     }
 
     private void checkLetter(char letter) {
         boolean foundLetter = false;
-
         for (int i = 0; i < word.length(); i++) {
             if (word.charAt(i) == letter) {
                 userWord[i] = letter;
@@ -44,10 +44,9 @@ public class Hangman {
             }
         }
         if (!foundLetter) {
-            System.out.println("Wrong letter :( ");
-            int live = lives--;
-            System.out.println("You have " + live + " lives left");
-            System.out.println("============================"+ "\n");
+            lives--;
+            System.out.println("Wrong letter. ");
+            System.out.println("You have " + lives + " lives left.");
         }
     }
 
